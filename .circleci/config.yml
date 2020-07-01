@@ -25,7 +25,7 @@ commands:
             bundle exec rspec --format progress \
                               --out /tmp/test-results/rspec.xml \
                               $TEST_FILES
-setup_environment:
+  setup_environment:
     steps:
       - checkout
       - restore_cache:
@@ -34,6 +34,7 @@ setup_environment:
       - save_cache:
           key: *bundle_cache
           paths:
+            - vendor/bundle
 jobs:
   lintering:
     executor: default
