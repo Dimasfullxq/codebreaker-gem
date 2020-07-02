@@ -16,6 +16,7 @@ module Codebreaker
     NONE = ' '
 
     attr_reader :player, :difficalty, :attempts, :hints, :secret_code
+
     include Uploader
 
     def initialize(player, difficalty)
