@@ -42,7 +42,7 @@ module Codebreaker
       @attempts -= 1
       code_guess = code.zip(guess)
       check = POSITIVE * (code.size - code_guess.delete_if { |num| num[0] == num[1] }.size) +
-              NEGATIVE * minuses(code_guess)
+              NEGATIVE * negative(code_guess)
       check += none_get(check) if check.size < SECRET_CODE_SIZE
       check
     end
@@ -64,7 +64,7 @@ module Codebreaker
       code.to_i
     end
 
-    def minuses(code_guess)
+    def negative(code_guess)
       code_numbers = code_guess.map { |num| num[0] }
       guess_numbers = code_guess.map { |num| num[1] }
       guess_numbers.map { |guess| code_numbers.select { |code| code == guess } }.flatten.uniq.size
