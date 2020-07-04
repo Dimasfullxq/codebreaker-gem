@@ -83,13 +83,13 @@ PLATFORMS
 
 DEPENDENCIES
   codebreaker!
-  rake (~> 12.3.3)
+  rake (~> 12.3)
   rspec (~> 3.9)
-  rubocop (~> 0.86.0)
-  rubocop-performance (~> 1.6.1)
-  rubocop-rspec (~> 1.40.0)
-  simplecov (~> 0.18.5)
-  solargraph (~> 0.39.10)
+  rubocop (~> 0.86)
+  rubocop-performance (~> 1.6)
+  rubocop-rspec (~> 1.40)
+  simplecov (~> 0.18)
+  solargraph (~> 0.39)
 
 BUNDLED WITH
    2.1.4
