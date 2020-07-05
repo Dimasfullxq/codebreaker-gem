@@ -16,16 +16,16 @@ RSpec.describe Codebreaker::Game do
       expect(game.secret_code.to_s).to match(/[1-6]+/)
     end
 
-    it 'its difficalty is easy' do
-      expect(game.difficalty).to eq(:easy)
+    it 'its difficulty is easy' do
+      expect(game.difficulty).to eq(:easy)
     end
 
-    it 'has attempts for each difficalty' do
-      expect(game.attempts).to eq(Codebreaker::Game::DIFFICALTIES[game.difficalty][:attempts])
+    it 'has attempts for each difficulty' do
+      expect(game.attempts).to eq(Codebreaker::Game::DIFFICULTIES[game.difficulty][:attempts])
     end
 
-    it 'has hints for each difficalty' do
-      expect(game.hints).to eq(Codebreaker::Game::DIFFICALTIES[game.difficalty][:hints])
+    it 'has hints for each difficulty' do
+      expect(game.hints).to eq(Codebreaker::Game::DIFFICULTIES[game.difficulty][:hints])
     end
 
     it 'has list of hints equal to secret code' do

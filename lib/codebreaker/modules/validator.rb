@@ -6,7 +6,7 @@ module Codebreaker
     include Errors
     NAME_MIN_SIZE = 3
     NAME_MAX_SIZE = 20
-    DIFFICALTY_LIST = %w[easy medium hell].freeze
+    DIFFICULTY_LIST = %w[easy medium hell].freeze
 
     private
 
@@ -16,8 +16,8 @@ module Codebreaker
       name.size > NAME_MAX_SIZE ? raise(LongNameError) : true
     end
 
-    def validate_difficalty?(difficalty)
-      !DIFFICALTY_LIST.include?(difficalty) ? raise(WrongCommandError, 'Choose correct difficalty') : true
+    def validate_difficulty?(difficulty)
+      !DIFFICULTY_LIST.include?(difficulty) ? raise(WrongCommandError, 'Choose correct difficulty') : true
     end
 
     def validate_guess?(guess)

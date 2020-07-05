@@ -17,9 +17,9 @@ RSpec.describe Codebreaker::Validator do
     end
   end
 
-  describe '#validate_difficalty?' do
-    it 'raises WrongCommandError to choose correct difficalty' do
-      expect { validate_field('easyyyyy', 'difficalty') }.to raise_error(Codebreaker::WrongCommandError)
+  describe '#validate_difficulty?' do
+    it 'raises WrongCommandError to choose correct difficulty' do
+      expect { validate_field('easyyyyy', 'difficulty') }.to raise_error(Codebreaker::WrongCommandError)
     end
   end
 

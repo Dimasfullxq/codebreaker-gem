@@ -7,7 +7,7 @@ module Codebreaker
   class Game
     SECRET_CODE_SIZE = 4
     SECRET_CODE_NUMBERS = (1..6).freeze
-    DIFFICALTIES = { easy: { attempts: 15, hints: 2 },
+    DIFFICULTIES = { easy: { attempts: 15, hints: 2 },
                      medium: { attempts: 10, hints: 1 },
                      hell: { attempts: 5, hints: 1 } }.freeze
     GAME_RESULTS_FILE = 'results.yml'
@@ -15,15 +15,15 @@ module Codebreaker
     NEGATIVE = '-'
     NONE = ' '
 
-    attr_reader :player, :difficalty, :attempts, :hints, :secret_code
+    attr_reader :player, :difficulty, :attempts, :hints, :secret_code
 
     include Uploader
 
-    def initialize(player, difficalty)
+    def initialize(player, difficulty)
       @player = player
-      @difficalty = difficalty
-      @attempts = DIFFICALTIES[difficalty][:attempts]
-      @hints = DIFFICALTIES[difficalty][:hints]
+      @difficulty = difficulty
+      @attempts = DIFFICULTIES[difficulty][:attempts]
+      @hints = DIFFICULTIES[difficulty][:hints]
       @secret_code = generate_secret_code
       @list_of_hints = @secret_code.digits.reverse
     end
@@ -48,11 +48,11 @@ module Codebreaker
     end
 
     def create_stats
-      attempts_total = DIFFICALTIES[@difficalty][:attempts]
+      attempts_total = DIFFICULTIES[@difficulty][:attempts]
       attempts_used = attempts_total - @attempts
-      hints_total = DIFFICALTIES[@difficalty][:hints]
+      hints_total = DIFFICULTIES[@difficulty][:hints]
       hints_used = hints_total - @hints
-      { player: @player, difficalty: @difficalty, attempts_total: DIFFICALTIES[@difficalty][:attempts],
+      { player: @player, difficulty: @difficulty, attempts_total: DIFFICULTIES[@difficulty][:attempts],
         attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used }
     end
 
