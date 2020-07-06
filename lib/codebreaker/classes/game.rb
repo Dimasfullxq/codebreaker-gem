@@ -10,15 +10,11 @@ module Codebreaker
     DIFFICULTIES = { easy: { attempts: 15, hints: 2 },
                      medium: { attempts: 10, hints: 1 },
                      hell: { attempts: 5, hints: 1 } }.freeze
-    GAME_RESULTS_FILE = 'results.yml'
-    POSITIVE = '+'
-    NEGATIVE = '-'
-    NONE = ' '
 
     attr_reader :player, :difficulty, :attempts, :hints, :secret_code
 
     include Uploader
-    include Validator
+    extend Validator
 
     def initialize(player, difficulty)
       @player = player
@@ -27,6 +23,14 @@ module Codebreaker
       @hints = DIFFICULTIES[@difficulty.to_sym][:hints]
       @secret_code = generate_secret_code
       @list_of_hints = @secret_code.digits.reverse
+    end
+
+    def self.valid?(difficulty)
+      validate_difficulty?(difficulty)
+    end
+
+    def self.guess_valid?(guess)
+      validate_guess?(guess)
     end
 
     def take_hint
@@ -39,33 +43,32 @@ module Codebreaker
       hint
     end
 
-    def check_the_guess(code, guess)
+    def check_the_guess(guess)
       @attempts -= 1
-      code_guess = code.zip(guess)
-      check = POSITIVE * (code.size - code_guess.delete_if { |num| num[0] == num[1] }.size) +
-              NEGATIVE * negative(code_guess)
-      check += none_get(check) if check.size < SECRET_CODE_SIZE
+      @code_guess = zipped(guess)
+      check = { positive: positive, negative: negative, none: 0 }
+      check[:none] += none(check)
       check
     end
 
     def create_stats
-      attempts_total = DIFFICULTIES[@difficulty][:attempts]
+      attempts_total = DIFFICULTIES[@difficulty.to_sym][:attempts]
       attempts_used = attempts_total - @attempts
-      hints_total = DIFFICULTIES[@difficulty][:hints]
+      hints_total = DIFFICULTIES[@difficulty.to_sym][:hints]
       hints_used = hints_total - @hints
-      { player: @player, difficulty: @difficulty, attempts_total: DIFFICULTIES[@difficulty][:attempts],
+      { player: @player, difficulty: @difficulty, attempts_total: attempts_total,
         attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used }
     end
 
-    def validate_difficulty
-      validate_difficulty?(@difficulty)
-    end
-
-    def validate_guess(guess)
-      validate_guess?(guess)
-    end
-
     private
+
+    def zipped(guess)
+      @secret_code.digits.zip(guess)
+    end
+
+    def positive
+      @secret_code.digits.size - @code_guess.delete_if { |num| num[0] == num[1] }.size
+    end
 
     def generate_secret_code
       code = ''
@@ -73,14 +76,14 @@ module Codebreaker
       code.to_i
     end
 
-    def negative(code_guess)
-      code_numbers = code_guess.map { |num| num[0] }
-      guess_numbers = code_guess.map { |num| num[1] }
+    def negative
+      code_numbers = @code_guess.map { |num| num[0] }
+      guess_numbers = @code_guess.map { |num| num[1] }
       guess_numbers.map { |guess| code_numbers.select { |code| code == guess } }.flatten.uniq.size
     end
 
-    def none_get(check)
-      NONE * (SECRET_CODE_SIZE - check.size)
+    def none(check)
+      SECRET_CODE_SIZE - (check[:positive] + check[:negative])
     end
   end
 end

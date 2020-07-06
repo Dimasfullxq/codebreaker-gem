@@ -21,8 +21,6 @@ module Codebreaker
     end
 
     def validate_guess?(guess)
-      return true if guess == 'hint'
-
       condition = guess.size < Codebreaker::Game::SECRET_CODE_SIZE || guess.size > Codebreaker::Game::SECRET_CODE_SIZE
       condition ? raise(WrongCommandError, "Code size must be #{Codebreaker::Game::SECRET_CODE_SIZE}") : true
       guess.match?(/[a-zA-Z\s_07-9*&%$#]/) ? raise(WrongCommandError, 'Put only numbers from 1 to 6') : true
