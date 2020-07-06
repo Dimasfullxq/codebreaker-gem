@@ -18,12 +18,13 @@ module Codebreaker
     attr_reader :player, :difficulty, :attempts, :hints, :secret_code
 
     include Uploader
+    include Validator
 
     def initialize(player, difficulty)
       @player = player
       @difficulty = difficulty
-      @attempts = DIFFICULTIES[difficulty][:attempts]
-      @hints = DIFFICULTIES[difficulty][:hints]
+      @attempts = DIFFICULTIES[@difficulty.to_sym][:attempts]
+      @hints = DIFFICULTIES[@difficulty.to_sym][:hints]
       @secret_code = generate_secret_code
       @list_of_hints = @secret_code.digits.reverse
     end
@@ -54,6 +55,14 @@ module Codebreaker
       hints_used = hints_total - @hints
       { player: @player, difficulty: @difficulty, attempts_total: DIFFICULTIES[@difficulty][:attempts],
         attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used }
+    end
+
+    def validate_difficulty
+      validate_difficulty?(@difficulty)
+    end
+
+    def validate_guess(guess)
+      validate_guess?(guess)
     end
 
     private
