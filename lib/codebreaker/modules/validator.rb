@@ -6,7 +6,7 @@ module Codebreaker
     include Errors
     NAME_MIN_SIZE = 3
     NAME_MAX_SIZE = 20
-    DIFFICULTY_LIST = %w[easy medium hell].freeze
+    DIFFICULTY_LIST = "'easy', 'medium', 'hell'"
 
     private
 
