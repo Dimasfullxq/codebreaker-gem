@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 RSpec.describe Codebreaker::Game do
-  let(:game) { described_class.new(Codebreaker::Player.new('Dima'), :easy) }
+  let(:game) { described_class.new(Codebreaker::Player.new('Dima'), 'easy') }
 
   describe '#take_hint' do
     it 'raises error when there is no hints left' do
