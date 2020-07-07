@@ -18,9 +18,9 @@ module Codebreaker
 
     def initialize(player, difficulty)
       @player = player
-      @difficulty = difficulty
-      @attempts = DIFFICULTIES[@difficulty.to_sym][:attempts]
-      @hints = DIFFICULTIES[@difficulty.to_sym][:hints]
+      @difficulty = difficulty.to_sym
+      @attempts = DIFFICULTIES[@difficulty][:attempts]
+      @hints = DIFFICULTIES[@difficulty][:hints]
       @secret_code = generate_secret_code
       @list_of_hints = @secret_code.digits.reverse
     end
@@ -52,9 +52,9 @@ module Codebreaker
     end
 
     def create_stats
-      attempts_total = DIFFICULTIES[@difficulty.to_sym][:attempts]
+      attempts_total = DIFFICULTIES[@difficulty][:attempts]
       attempts_used = attempts_total - @attempts
-      hints_total = DIFFICULTIES[@difficulty.to_sym][:hints]
+      hints_total = DIFFICULTIES[@difficulty][:hints]
       hints_used = hints_total - @hints
       { player: @player, difficulty: @difficulty, attempts_total: attempts_total,
         attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used }
