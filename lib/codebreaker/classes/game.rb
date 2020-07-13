@@ -71,9 +71,7 @@ module Codebreaker
     end
 
     def generate_secret_code
-      code = ''
-      SECRET_CODE_SIZE.times { code += rand(SECRET_CODE_NUMBERS).to_s }
-      code.to_i
+      (1..SECRET_CODE_SIZE).map { rand(SECRET_CODE_NUMBERS) }.join.to_i
     end
 
     def negative
