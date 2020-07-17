@@ -44,8 +44,8 @@ module Codebreaker
     def check_the_guess(guess)
       @attempts -= 1
       @code_guess = zipped(guess.to_i.digits)
-      check = { positive: positive, negative: negative, none: 0 }
-      check[:none] += none(check)
+      check = { exect_hit: exect_hit, wrong_position_hit: wrong_position_hit, empty_hit: 0 }
+      check[:empty_hit] += empty_hit(check)
       check
     end
 
@@ -64,7 +64,7 @@ module Codebreaker
       @secret_code.digits.zip(guess)
     end
 
-    def positive
+    def exect_hit
       @secret_code.digits.size - @code_guess.delete_if { |num| num[0] == num[1] }.size
     end
 
@@ -72,14 +72,14 @@ module Codebreaker
       (1..Validator::SECRET_CODE_SIZE).map { rand(Validator::SECRET_CODE_NUMBERS) }.join.to_i
     end
 
-    def negative
+    def wrong_position_hit
       code_numbers = @code_guess.map { |num| num[0] }
       guess_numbers = @code_guess.map { |num| num[1] }
       guess_numbers.map { |guess| code_numbers.select { |code| code == guess } }.flatten.uniq.size
     end
 
-    def none(check)
-      Validator::SECRET_CODE_SIZE - (check[:positive] + check[:negative])
+    def empty_hit(check)
+      Validator::SECRET_CODE_SIZE - (check[:exect_hit] + check[:wrong_position_hit])
     end
   end
 end
