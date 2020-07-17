@@ -45,7 +45,7 @@ module Codebreaker
 
     def check_the_guess(guess)
       @attempts -= 1
-      @code_guess = zipped(guess)
+      @code_guess = zipped(guess.to_i.digits)
       check = { positive: positive, negative: negative, none: 0 }
       check[:none] += none(check)
       check
