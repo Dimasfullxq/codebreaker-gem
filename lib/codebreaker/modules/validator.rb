@@ -10,14 +10,14 @@ module Codebreaker
     SECRET_CODE_NUMBERS = (1..6).freeze
     DIFFICULTY_LIST = "'easy', 'medium', 'hell'"
     WRONG_GUESS_SIZE_MESSAGE = "Code size must be #{SECRET_CODE_SIZE}"
-    GUESS_MATCHING = /[a-zA-Z\s_[^#{SECRET_CODE_NUMBERS.first}-#{SECRET_CODE_NUMBERS.last}]*&%$#?]/.freeze
+    GUESS_MATCHING = /[^#{SECRET_CODE_NUMBERS.first}-#{SECRET_CODE_NUMBERS.last}]/.freeze
     WRONG_GUESS_MATCHING_MESSAGE = "Put only numbers from #{SECRET_CODE_NUMBERS.first} " \
                                    "to #{SECRET_CODE_NUMBERS.last}"
 
     private
 
     def validate_name?(name)
-      name.match?(/[\d_\s]/) ? raise(ClassError) : true
+      name.match?(/[^a-zA-Z]/) ? raise(ClassError) : true
       name.size < NAME_MIN_SIZE ? raise(ShortNameError) : true
       name.size > NAME_MAX_SIZE ? raise(LongNameError) : true
     end

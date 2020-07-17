@@ -65,7 +65,7 @@ module Codebreaker
     end
 
     def exect_hit
-      @secret_code.digits.size - @code_guess.delete_if { |num| num[0] == num[1] }.size
+      @secret_code.digits.size - @code_guess.delete_if { |num_pair| num_pair[0] == num_pair[1] }.size
     end
 
     def generate_secret_code
