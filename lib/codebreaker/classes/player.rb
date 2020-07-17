@@ -11,8 +11,8 @@ module Codebreaker
       @name = name
     end
 
-    def self.valid?(name)
-      validate_name?(name)
+    def self.validate(name)
+      validate_name(name)
     end
   end
 end

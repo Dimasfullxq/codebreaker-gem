@@ -16,20 +16,20 @@ module Codebreaker
 
     private
 
-    def validate_name?(name)
-      name.match?(/[^a-zA-Z]/) ? raise(ClassError) : true
-      name.size < NAME_MIN_SIZE ? raise(ShortNameError) : true
-      name.size > NAME_MAX_SIZE ? raise(LongNameError) : true
+    def validate_name(name)
+      raise(ClassError) if name.match?(/[^a-zA-Z]/) 
+      raise(ShortNameError) if name.size < NAME_MIN_SIZE
+      raise(LongNameError) if name.size > NAME_MAX_SIZE
     end
 
-    def validate_difficulty?(difficulty)
-      !DIFFICULTY_LIST.include?(difficulty) ? raise(WrongCommandError, 'Choose correct difficulty') : true
+    def validate_difficulty(difficulty)
+      raise(WrongCommandError, 'Choose correct difficulty') unless Game::DIFFICULTIES.key?(difficulty.to_sym)
     end
 
-    def validate_guess?(guess)
+    def validate_guess(guess)
       condition = guess.size < SECRET_CODE_SIZE || guess.size > SECRET_CODE_SIZE
-      condition ? raise(WrongCommandError, WRONG_GUESS_SIZE_MESSAGE) : true
-      guess.match?(GUESS_MATCHING) ? raise(WrongCommandError, WRONG_GUESS_MATCHING_MESSAGE) : true
+      raise(WrongCommandError, WRONG_GUESS_SIZE_MESSAGE) if condition
+      raise(WrongCommandError, WRONG_GUESS_MATCHING_MESSAGE) if guess.match?(GUESS_MATCHING)
     end
   end
 end
