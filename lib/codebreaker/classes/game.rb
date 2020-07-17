@@ -5,8 +5,6 @@ module Codebreaker
   include Errors
   # game entity
   class Game
-    SECRET_CODE_SIZE = 4
-    SECRET_CODE_NUMBERS = (1..6).freeze
     DIFFICULTIES = { easy: { attempts: 15, hints: 2 },
                      medium: { attempts: 10, hints: 1 },
                      hell: { attempts: 5, hints: 1 } }.freeze
@@ -71,7 +69,7 @@ module Codebreaker
     end
 
     def generate_secret_code
-      (1..SECRET_CODE_SIZE).map { rand(SECRET_CODE_NUMBERS) }.join.to_i
+      (1..Validator::SECRET_CODE_SIZE).map { rand(Validator::SECRET_CODE_NUMBERS) }.join.to_i
     end
 
     def negative
@@ -81,7 +79,7 @@ module Codebreaker
     end
 
     def none(check)
-      SECRET_CODE_SIZE - (check[:positive] + check[:negative])
+      Validator::SECRET_CODE_SIZE - (check[:positive] + check[:negative])
     end
   end
 end

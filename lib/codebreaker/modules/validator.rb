@@ -6,7 +6,13 @@ module Codebreaker
     include Errors
     NAME_MIN_SIZE = 3
     NAME_MAX_SIZE = 20
+    SECRET_CODE_SIZE = 4
+    SECRET_CODE_NUMBERS = (1..6).freeze
     DIFFICULTY_LIST = "'easy', 'medium', 'hell'"
+    WRONG_GUESS_SIZE_MESSAGE = "Code size must be #{SECRET_CODE_SIZE}"
+    GUESS_MATCHING = /[a-zA-Z\s_[^#{SECRET_CODE_NUMBERS.first}-#{SECRET_CODE_NUMBERS.last}]*&%$#?]/.freeze
+    WRONG_GUESS_MATCHING_MESSAGE = "Put only numbers from #{SECRET_CODE_NUMBERS.first} " \
+                                   "to #{SECRET_CODE_NUMBERS.last}"
 
     private
 
@@ -21,9 +27,9 @@ module Codebreaker
     end
 
     def validate_guess?(guess)
-      condition = guess.size < Codebreaker::Game::SECRET_CODE_SIZE || guess.size > Codebreaker::Game::SECRET_CODE_SIZE
-      condition ? raise(WrongCommandError, "Code size must be #{Codebreaker::Game::SECRET_CODE_SIZE}") : true
-      guess.match?(/[a-zA-Z\s_07-9*&%$#]/) ? raise(WrongCommandError, 'Put only numbers from 1 to 6') : true
+      condition = guess.size < SECRET_CODE_SIZE || guess.size > SECRET_CODE_SIZE
+      condition ? raise(WrongCommandError, WRONG_GUESS_SIZE_MESSAGE) : true
+      guess.match?(GUESS_MATCHING) ? raise(WrongCommandError, WRONG_GUESS_MATCHING_MESSAGE) : true
     end
   end
 end
