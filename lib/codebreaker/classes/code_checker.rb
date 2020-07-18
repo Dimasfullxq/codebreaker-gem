@@ -10,7 +10,7 @@ module Codebreaker
     end
 
     def result
-      @check = { exect_hit: exect_hit, wrong_position_hit: wrong_position_hit, empty_hit: 0 }
+      @check = { exact_hit: exact_hit, wrong_position_hit: wrong_position_hit, empty_hit: 0 }
       @check[:empty_hit] += empty_hit
       @check
     end
@@ -21,7 +21,7 @@ module Codebreaker
       @secret_code.digits.zip(@input_code.to_i.digits)
     end
 
-    def exect_hit
+    def exact_hit
       @secret_code.digits.size - @code_guess.delete_if { |num_pair| num_pair[0] == num_pair[1] }.size
     end
 
@@ -32,7 +32,7 @@ module Codebreaker
     end
 
     def empty_hit
-      Validator::SECRET_CODE_SIZE - (@check[:exect_hit] + @check[:wrong_position_hit])
+      Validator::SECRET_CODE_SIZE - (@check[:exact_hit] + @check[:wrong_position_hit])
     end
   end
 end
