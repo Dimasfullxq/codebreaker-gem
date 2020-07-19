@@ -3,17 +3,23 @@
 module Codebreaker
   # statistic entity
   class StatisticService
-    def initialize(game, file_name)
-      @game = game
+    def initialize(file_name)
       @file_name = file_name
+      @stats_sorter = StatisticSorter.new(file_name)
     end
 
-    def save_results
+    def save_results(game)
+      @game = game
       stats = File.file?(@file_name) && !File.zero?(@file_name) ? YAML.load_file(@file_name) : []
       stats << create_stats
       file = File.open(@file_name, 'w')
       file.write(stats.to_yaml)
       file.close
+    end
+
+    def show_results
+      condition = File.file?(@file_name) && !File.zero?(@file_name)
+      condition ? @stats_sorter.create_table : raise(Codebreaker::StatisticError)
     end
 
     private

@@ -5,6 +5,7 @@ SimpleCov.start
 SimpleCov.minimum_coverage 95
 require 'codebreaker'
 require 'yaml'
+require_relative 'shared_context/shared_data'
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

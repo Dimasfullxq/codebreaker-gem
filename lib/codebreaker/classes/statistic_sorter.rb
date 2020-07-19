@@ -7,8 +7,12 @@ module Codebreaker
       @file_name = file_name
     end
 
-    def show_stats
-      File.file?(@file_name) && !File.zero?(@file_name) ? create_table : 'There is no saved stats, yet!'
+    def create_table
+      sorted_stats.flat_map do |stat|
+        ["Name: #{stat[:player].name}\nDifficulty: #{stat[:difficulty]}
+Attempts total: #{stat[:attempts_total]}\nAttempts used: #{stat[:attempts_used]}\nHints total: #{stat[:hints_total]}
+Hints used: #{stat[:hints_used]}"]
+      end
     end
 
     private
@@ -27,14 +31,6 @@ module Codebreaker
 
     def sorted_stats
       group_by_hints.map { |hash| hash.map { |_, stat| stat.sort_by { |field| field[:attempts_used] } } }.flatten
-    end
-
-    def create_table
-      sorted_stats.flat_map do |stat|
-        ["Name: #{stat[:player].name}\nDifficulty: #{stat[:difficulty]}
-Attempts total: #{stat[:attempts_total]}\nAttempts used: #{stat[:attempts_used]}\nHints total: #{stat[:hints_total]}
-Hints used: #{stat[:hints_used]}"]
-      end
     end
   end
 end
