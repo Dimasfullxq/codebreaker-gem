@@ -30,7 +30,8 @@ module Codebreaker
       hints_total = Game::DIFFICULTIES[@game.difficulty][:hints]
       hints_used = hints_total - @game.hints
       { player: @game.player, difficulty: @game.difficulty, attempts_total: attempts_total,
-        attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used }
+        attempts_used: attempts_used, hints_total: hints_total, hints_used: hints_used,
+        date: Time.now.strftime('%d/%m/%y %k:%M') }
     end
   end
 end
